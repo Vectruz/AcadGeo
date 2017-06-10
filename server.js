@@ -43,6 +43,15 @@ var insertObjAccount = function(obj, callback) {
 	});
 };
 
+var insertObjClass = function(obj, callback) {
+	conexao.collection('class').insertOne(obj, function(err, result) {
+		assert.equal(err, null);
+		if (callback) {
+			callback();
+		}
+	});
+};
+
 var findObjInventoryByAccount = function(account, callback) {
 	console.log('Find inventory of account ' + account.name);
 	conexao.collection('inventory').find({idAccount: account._id}).toArray(function(err, objs){
@@ -152,7 +161,7 @@ app.get('/helloworld', function (req, res) {
 	res.status(200).json({msg: "Hello World"});
 });
 
-app.post('/addAccount', function (req, res) {
+app.post('/account', function (req, res) {
 	var newAccount = req.body;
 	console.log(newAccount);
 	findObjAccount(newAccount, function(err, objs) {
@@ -186,7 +195,7 @@ app.post('/addAccount', function (req, res) {
 	//res.status(200).json({msg: "Account?!"});
 });
 
-app.post('/addClass', function(req, res) {
+app.post('/class', function(req, res) {
 	var newClass = req.body;
 	findObjClass(newClass, function(err, objs) {
 		if (err) {
